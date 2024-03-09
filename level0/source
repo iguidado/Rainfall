@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(int argc, char *argv[]) {
+    int eax;
+
+    eax = atoi(argv[1]);
+    if (eax != 0x1a7) {
+        fwrite((void *)0x80ee170, 5, 1, stdout);
+        return 0;
+    }
+
+    char *str = strdup("0x80c5348");
+    int var1 = 0;
+    int var2 = getegid();
+    int var3 = geteuid();
+    setresgid(var2, var2, var2);
+    setresuid(var3, var3, var3);
+    execv(str, argv);
+
+    return 0;
+}
