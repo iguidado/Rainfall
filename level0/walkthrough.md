@@ -46,4 +46,4 @@ Dump of assembler code for function main:
 
 - The code __compare the argument with a value__ , this value is hard coded and is ___423___. <br>
 
-- Just use `cat /home/user/level1/.pass` and you have th flag !!
+- Just use `cat /home/user/level1/.pass` and you have the flag !!
